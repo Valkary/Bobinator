@@ -8,7 +8,6 @@ import { SocketContext } from "../../context/socket";
 
 import OrdersLayout from "../organisms/OrdersLayout";
 import ProgressIcons from "../atoms/ProgressIcons";
-import axios from "axios";
 import useFetchProdState from "../../hooks/useFetchProdState";
 
 const FeedbackComponents: any = {

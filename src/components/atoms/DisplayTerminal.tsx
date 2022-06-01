@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 
 import { SocketContext } from '../../context/socket';
 import useFetchLogs from '../../hooks/useFetchLogs';
+import OrderForm from './OrderForm';
 
 import { Log } from '../../interfaces';
 
@@ -12,7 +13,8 @@ const DisplayTerminal: React.FunctionComponent = () => {
 
   socket.emit('connected-from', 'terminal');
   
-  socket.on('recieve-log', async () => {
+  socket.on('order_update', async () => {
+    console.log("refetching!");
     const refetcher: any = await refetch();
     setLogs(refetcher.data);
   });
@@ -30,6 +32,7 @@ const DisplayTerminal: React.FunctionComponent = () => {
   } else {
     return (
       <div className=" w-full h-full bg-gray-900 pl-5 pt-5 max-h-full overflow-y-scroll scrollbar">
+        <OrderForm />
         {
           typeof logs !== "undefined" &&
           logs.map((curr_msg: Log) => {
