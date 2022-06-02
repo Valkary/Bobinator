@@ -6,37 +6,38 @@ import { Button, Input } from '@mantine/core';
 
 const OrderForm: React.FC = () => {
   const [metros, setMetros] = useState(1);
-  const [isError, setIsError] = useState(false);
+  const [isInputError, setIsInputError] = useState(false);
 
-  const createOrder = useMutation((metros: number) => {
+  const { mutate, isError, isLoading } = useMutation((metros: number) => {
     return axios.post(`http://localhost:4000/production/create_order?metros=${metros}`);
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createOrder.mutate(metros);
+    mutate(metros);
   }
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     const input_val = e.currentTarget.value;
     const new_val = parseInt(input_val, 10);
-    setIsError(false);
+    setIsInputError(false);
 
     if (isNaN(new_val)) {
       setMetros(new_val);
-      return setIsError(true);
+      return setIsInputError(true);
     } else if (new_val > 100) {
       return setMetros(100);
     } else if (new_val < 0) {
-      return setIsError(true);
+      return setIsInputError(true);
     }
     if (input_val.length >= 4) return;
     setMetros(new_val);
-    if (input_val.length === 0) return setIsError(true);
+    if (input_val.length === 0) return setIsInputError(true);
   }
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)} className=' flex flex-row'>
+    <form onSubmit={(e) => handleSubmit(e)} className=' flex flex-row font-code justify-end items-center'>
+      <p className=' text-gray-50 text-lg'>Metros:</p>
       <Input
         type={'number'}
         min={1}
@@ -45,13 +46,14 @@ const OrderForm: React.FC = () => {
         placeholder={'Metros'}
         value={metros}
         onChange={(e: React.FormEvent<HTMLInputElement>) => handleChange(e)}
-        className='flex-grow'
       />
       <Button
         variant='outline'
         type='submit'
-        disabled={isError}
-      >Hacer Pedido!</Button>
+        disabled={isInputError}
+        loading={isLoading}
+        color={isError ? 'red' : 'blue'}
+      >Crear orden</Button>
     </form>
   )
 }

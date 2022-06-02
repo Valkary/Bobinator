@@ -31,7 +31,7 @@ const Router: React.FC<{ enoughWidth: boolean, setLoggedIn: React.SetStateAction
 };
 
 const App: React.FC = () => {
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const theme = useMantineTheme();
   theme.colorScheme = 'dark';
 

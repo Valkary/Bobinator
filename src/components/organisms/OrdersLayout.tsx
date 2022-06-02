@@ -1,9 +1,9 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Alert, Chips, Chip, Badge, Card } from "@mantine/core";
 import { ExclamationCircle } from "@styled-icons/bootstrap/ExclamationCircle";
 import { format } from 'date-fns';
 
-// import { SocketContext } from '../../context/socket';
+import { SocketContext } from '../../context/socket';
 
 import OrdersSkeleton from "../atoms/OrdersSkeleton";
 import OrderInProd from "../cells/OrderInProd";
@@ -16,24 +16,26 @@ const OrdersLayout: React.FunctionComponent<{ enoughWidth: boolean, prod_state: 
 
   const requiredData = useGetRequiredOrderLayoutData();
   
-  // const socket = useContext(SocketContext);
+  const socket = useContext(SocketContext);
   
-  // socket.emit('connected-from', 'OrdersLayout');
+  socket.emit('connected-from', 'OrdersLayout');
   
-  // socket.on("order_update", () => {
-  //   setRequiredData(useGetRequiredOrderLayoutData(true));
-  // });
-    
-    if (requiredData === "loading") {
-      return <OrdersSkeleton />
-    } else if(requiredData === "error") {
-      return (
-        <Alert icon={<ExclamationCircle size={16} />} title="Error de conexión!" color="red">
+  
+  if (requiredData === "loading") {
+    return <OrdersSkeleton />
+  } else if(requiredData === "error") {
+    return (
+      <Alert icon={<ExclamationCircle size={16} />} title="Error de conexión!" color="red">
           Hubo un error de conexión con el servidor. Hable con el técnico encargado del servidor para ver cuál es el problema.
         </Alert>
       );
     } else {
-      const { finishedOrders, approvedOrders, inProdOrders, ordersOnHold, orderStages } = requiredData;
+      const { finishedOrders, approvedOrders, inProdOrders, ordersOnHold, orderStages, refetchAll } = requiredData;
+      
+      socket.on("order_update", () => {
+        refetchAll();
+      });
+
       const etapas = orderStages;
 
       const on_hold_orders = ordersOnHold;

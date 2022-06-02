@@ -34,7 +34,13 @@ export default function useGetRequiredOrderLayoutData() {
     inProdOrders,
     ordersOnHold,
     orderStages
-  ]
+  ];
+
+  const refetchAll = () => {
+    fetchArray.forEach(fetch => {
+      fetch.refetch();
+    });
+  }
 
   useEffect(() => {
     setFinishedOrders(fetchFinishedOrders?.data);
@@ -50,7 +56,8 @@ export default function useGetRequiredOrderLayoutData() {
       approvedOrders,
       inProdOrders,
       ordersOnHold,
-      orderStages
+      orderStages,
+      refetchAll
     }
   } else if (fetchArray.some(element => element.isLoading)) {
     return "loading";
