@@ -18,12 +18,12 @@ const ProductionGraph: React.FC = ({}) => {
   
     const sections_maker = () => {
       const { approved, not_approved, in_prod, finished } = orderCount;
-  
+ 
       const sections = [
-        { value: approved, color: 'blue' },
-        { value: not_approved, color: 'red' },
-        { value: in_prod, color: 'yellow' },
-        { value: finished, color: 'green' },
+        { value: approved ?? 0, color: 'blue' },
+        { value: not_approved ?? 0, color: 'red' },
+        { value: in_prod ?? 0, color: 'yellow' },
+        { value: finished ?? 0, color: 'green' },
       ];
   
       return sections;

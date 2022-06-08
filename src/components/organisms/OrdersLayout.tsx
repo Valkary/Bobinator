@@ -69,7 +69,7 @@ const OrdersLayout: React.FunctionComponent<{ enoughWidth: boolean, prod_state: 
                         </div>
                         <div className=" flex flex-row justify-around pt-5">
                           <div className=" flex flex-col items-center">
-                            <div className=" text-gray-400 text-opacity-80">VUELTAS</div>
+                            <div className=" text-gray-400 text-opacity-80">METROS</div>
                             <div>{order.vueltas}</div>
                           </div>
                           <div className=" flex flex-col items-center">
