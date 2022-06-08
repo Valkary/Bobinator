@@ -72,7 +72,6 @@ const ProductionGraph: React.FC = ({}) => {
   } else {
     return <OrdersSkeleton />
   }
-  return <OrdersSkeleton />
 }
 
 export default ProductionGraph;

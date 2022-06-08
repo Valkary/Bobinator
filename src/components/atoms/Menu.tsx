@@ -54,7 +54,7 @@ const Menu: React.FunctionComponent<{ enoughWidth: boolean }> = ({ enoughWidth }
                       <span className="text-md  ml-2">{title}</span>
                     </div>
                     <div className="py-1 px-3 bg-gray-700 rounded text-gray-500 flex items-center justify-center text-xs">
-                      5
+                      Hugo es puto
                     </div>
                   </li>
                 </Link>
