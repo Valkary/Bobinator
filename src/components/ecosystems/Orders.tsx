@@ -63,7 +63,6 @@ const Orders: React.FunctionComponent<{ enoughWidth: boolean }> = ({ enoughWidth
   const { data, refetch }  = useFetchProdState();
 
   socket.on("order_update", () => {
-    console.log("Here");
     refetch();
   });
 

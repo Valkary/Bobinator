@@ -14,7 +14,6 @@ const DisplayTerminal: React.FunctionComponent = () => {
   socket.emit('connected-from', 'terminal');
   
   socket.on('order_update', async () => {
-    console.log("refetching!");
     const refetcher: any = await refetch();
     setLogs(refetcher.data);
   });
