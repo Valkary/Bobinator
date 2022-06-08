@@ -8,11 +8,12 @@ import { SocketContext } from '../../context/socket';
 import OrdersSkeleton from "../atoms/OrdersSkeleton";
 import ApproveOrderBtn from "../atoms/ApproveOrderBtn";
 import ProductionTimeline from "../atoms/ProductionTimeline";
+import OrderForm from "../atoms/OrderForm";
 
 import useGetRequiredOrderLayoutData from "../../hooks/useGetRequiredOrderLayoutData";
 
 const OrdersLayout: React.FunctionComponent<{ enoughWidth: boolean, prod_state: string }> = ({ enoughWidth, prod_state }) => {
-  const [selectedChip, setSelectedChip] = useState(['approved']);
+  const [selectedChip, setSelectedChip] = useState(['approved', 'finished', 'on-hold']);
 
   const requiredData = useGetRequiredOrderLayoutData();
   const socket = useContext(SocketContext);
@@ -97,11 +98,12 @@ const OrdersLayout: React.FunctionComponent<{ enoughWidth: boolean, prod_state: 
           }
           </div>
 
+          <OrderForm />
+
           <Chips variant="filled" multiple onChange={setSelectedChip} value={selectedChip} className=" mb-5">
             <Chip value="approved">Aprobados</Chip>
             <Chip value="finished">Terminados</Chip>
             <Chip value="on-hold">En espera</Chip>
-            <Chip value="other">Otros</Chip>
           </Chips>
 
           <div className=" max-h-full grow">

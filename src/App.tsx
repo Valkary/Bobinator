@@ -5,6 +5,7 @@ import './App.css';
 import { SocketContext, socket } from './context/socket';
 
 import { useMantineTheme, MantineProvider } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
 import { Routes, Route, HashRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -31,7 +32,7 @@ const Router: React.FC<{ enoughWidth: boolean, setLoggedIn: React.SetStateAction
 };
 
 const App: React.FC = () => {
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const theme = useMantineTheme();
   theme.colorScheme = 'dark';
 
@@ -46,31 +47,33 @@ const App: React.FC = () => {
   if(loggedIn) {
     return (
       <HashRouter>
-        <QueryClientProvider client={queryClient}>
-          <SocketContext.Provider value={socket}>
-            <MantineProvider>
-            {
-              enoughWidth ?
-              <div className={`grid grid-cols-main justify-items-start h-screen w-screen overflow-y-hidden`}>
-                <div className={`col-span-1 col-start-1 row-start-1 row-span-1 w-full h-full ${theme.colorScheme === "dark" ? 'bg-darkBackground' : 'bg-lightBackground'} flex flex-col border-r-2 border-gray-700`}>
-                  <Menu enoughWidth={enoughWidth} />
+        <NotificationsProvider>
+          <QueryClientProvider client={queryClient}>
+            <SocketContext.Provider value={socket}>
+              <MantineProvider>
+              {
+                enoughWidth ?
+                <div className={`grid grid-cols-main justify-items-start h-screen w-screen overflow-y-hidden`}>
+                  <div className={`col-span-1 col-start-1 row-start-1 row-span-1 w-full h-full ${theme.colorScheme === "dark" ? 'bg-darkBackground' : 'bg-lightBackground'} flex flex-col border-r-2 border-gray-700`}>
+                    <Menu enoughWidth={enoughWidth} />
+                  </div>
+                  <div className={`col-span-1 col-start-2 row-start-1 row-span-1 w-full h-full ${theme.colorScheme === "dark" ? 'bg-darkBackground' : 'bg-lightBackground'} overflow-auto`}>
+                    <Router enoughWidth={enoughWidth} setLoggedIn={setLoggedIn} />
+                  </div>
+                </div> :
+                <div className={` grid grid-cols-smMain grid-rows-smMain justify-items-start h-screen w-screen overflow-y-hidden ${theme.colorScheme === "dark" ? 'bg-darkBackground' : 'bg-lightBackground'}`}>
+                  <div className=" col-start-1 row-start-1 w-full h-full">
+                    <Router enoughWidth={enoughWidth} setLoggedIn={setLoggedIn} />
+                  </div>
+                  <div className=" col-start-1 row-start-2 border-t-2 border-gray-700 w-full h-full">
+                    <Menu enoughWidth={enoughWidth} />
+                  </div>
                 </div>
-                <div className={`col-span-1 col-start-2 row-start-1 row-span-1 w-full h-full ${theme.colorScheme === "dark" ? 'bg-darkBackground' : 'bg-lightBackground'} overflow-auto`}>
-                  <Router enoughWidth={enoughWidth} setLoggedIn={setLoggedIn} />
-                </div>
-              </div> :
-              <div className={` grid grid-cols-smMain grid-rows-smMain justify-items-start h-screen w-screen overflow-y-hidden ${theme.colorScheme === "dark" ? 'bg-darkBackground' : 'bg-lightBackground'}`}>
-                <div className=" col-start-1 row-start-1 w-full h-full">
-                  <Router enoughWidth={enoughWidth} setLoggedIn={setLoggedIn} />
-                </div>
-                <div className=" col-start-1 row-start-2 border-t-2 border-gray-700 w-full h-full">
-                  <Menu enoughWidth={enoughWidth} />
-                </div>
-              </div>
-            }
-            </MantineProvider>
-          </SocketContext.Provider>
-        </QueryClientProvider>
+              }
+              </MantineProvider>
+            </SocketContext.Provider>
+          </QueryClientProvider>
+        </NotificationsProvider>
       </HashRouter>
     );
   } else {

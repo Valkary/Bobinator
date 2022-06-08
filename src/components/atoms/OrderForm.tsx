@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import { useMutation } from 'react-query';
+import { showNotification } from '@mantine/notifications';
 import { Button, Input } from '@mantine/core';
 
 
@@ -14,7 +15,13 @@ const OrderForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setMetros(1);
     mutate(metros);
+    showNotification({
+      title: "Pedido creado en la base de datos",
+      message: `El pedido de ${metros} metros ha sido creado de manera exitosa en la base de datos`,
+      color: 'green'
+    });
   }
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {

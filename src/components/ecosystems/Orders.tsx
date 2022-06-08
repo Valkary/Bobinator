@@ -66,8 +66,6 @@ const Orders: React.FunctionComponent<{ enoughWidth: boolean }> = ({ enoughWidth
   useEffect(() => {
     if (typeof data !== 'undefined') setProdState(data);
   }, [data]);
-
-  console.log(prodState);
   
   socket.on("order_update", () => {
     refetch();

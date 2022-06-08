@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Button } from '@mantine/core';
 import { useMutation } from 'react-query';
+import { showNotification } from '@mantine/notifications';
 import axios from 'axios';
 
 const ApproveOrderBtn: React.FunctionComponent<{ order_id: number, prod_state: string }> = ({ order_id, prod_state }) => {
@@ -8,13 +9,33 @@ const ApproveOrderBtn: React.FunctionComponent<{ order_id: number, prod_state: s
     return axios.post(`http://localhost:4000/production/update_order?id=${order_id}`);
   });  
 
+  const handleApprove = () => {
+    updateOrder.mutate(order_id);
+
+    showNotification({
+      title: 'Pedido aprobado correctamente',
+      message: `El pedido no. ${order_id} ha sido aprobado de manera correcta en la base de datos`,
+      color: 'green'
+    });
+  }
+
+  const approveReset = () => {
+    updateOrder.reset();
+
+    showNotification({
+      title: 'Pedido re-aprobado correctamente',
+      message: `El pedido no. ${order_id} ha sido aprobado de manera correcta en la base de datos`,
+      color: 'green'
+    });
+  }
+
   if (updateOrder.isError) {
     return (
       <Button
         variant='outline'
         color={"red"}
         uppercase
-        onClick={updateOrder.reset}
+        onClick={approveReset}
       >
         Error de conexión
       </Button>
@@ -37,7 +58,7 @@ const ApproveOrderBtn: React.FunctionComponent<{ order_id: number, prod_state: s
         variant='outline'
         color={"green"}
         uppercase
-        onClick={() => updateOrder.mutate(order_id)}
+        onClick={handleApprove}
       >
         Aprobar pedido
       </Button>

@@ -1,15 +1,15 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { format } from 'date-fns';
 
 import { SocketContext } from '../../context/socket';
 import useFetchLogs from '../../hooks/useFetchLogs';
-import OrderForm from './OrderForm';
 
 import { Log } from '../../interfaces';
 
 const DisplayTerminal: React.FunctionComponent = () => {
   const socket = useContext(SocketContext);
   const [logs, setLogs] = useState<Log[]>();
+  const endDiv = useRef(null);
 
   socket.emit('connected-from', 'terminal');
   
@@ -23,6 +23,11 @@ const DisplayTerminal: React.FunctionComponent = () => {
   useEffect(() => {
     setLogs(data);
   }, [data]);
+  
+  useEffect(() => {
+    //@ts-ignore
+    if (typeof endDiv !== "undefined" && endDiv !== null) endDiv.current?.scrollIntoView();
+  },[logs]);
 
   if(isError) {
     return <p>Error!</p>
@@ -30,8 +35,9 @@ const DisplayTerminal: React.FunctionComponent = () => {
     return <p>Success!</p>
   } else {
     return (
-      <div className=" w-full h-full bg-gray-900 pl-5 pt-5 max-h-full overflow-y-scroll scrollbar">
-        <OrderForm />
+      <div
+        className=" w-full h-full bg-gray-900 pl-5 pt-5 max-h-full overflow-y-scroll scrollbar scroll-smooth"
+      >
         {
           typeof logs !== "undefined" &&
           logs.map((curr_msg: Log) => {
@@ -50,6 +56,7 @@ const DisplayTerminal: React.FunctionComponent = () => {
             );
           })
         }
+        <div ref={endDiv}/>
       </div>
     );
   }
