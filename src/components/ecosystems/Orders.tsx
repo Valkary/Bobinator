@@ -60,25 +60,15 @@ const FeedbackComponents: any = {
 
 const Orders: React.FunctionComponent<{ enoughWidth: boolean }> = ({ enoughWidth }) => {
   const socket = useContext(SocketContext);
-  const [prodState, setProdState] = useState("in-prod");
-  const prod_state = useFetchProdState();
-
-  const prodStateFetcher = async () => {
-    const get_prod_state = await prod_state.data;
-    setProdState(get_prod_state[0].name);
-  };
-
-  useEffect(() => {
-    prodStateFetcher();
-  }, []);
+  const { data, refetch }  = useFetchProdState();
 
   socket.on("order_update", () => {
-    prod_state.refetch();
-    prodStateFetcher();
+    console.log("Here");
+    refetch();
   });
 
-  const Icon = FeedbackComponents[prodState].icon;
-  const Badge = FeedbackComponents[prodState].badge;
+  const Icon = FeedbackComponents[data].icon;
+  const Badge = FeedbackComponents[data].badge;
 
   return (
     <div className=" grid grid-rows-prodRows h-full w-full pt-5">
@@ -90,7 +80,7 @@ const Orders: React.FunctionComponent<{ enoughWidth: boolean }> = ({ enoughWidth
       </div>
 
       <div className=" row-start-2 row-span-1 pl-5 max-h-full max-w-full">
-        <OrdersLayout enoughWidth={enoughWidth} prod_state={prodState} />
+        <OrdersLayout enoughWidth={enoughWidth} prod_state={data} />
       </div>
 
       <div className=" row-start-3 row-span-1 font-code text-gray-50 flex flex-row pb-2 pl-2 pr-2 justify-end items-center text-xl">

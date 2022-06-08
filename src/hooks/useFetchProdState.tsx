@@ -6,7 +6,7 @@ const fetchProdState = async () => {
     `http://localhost:4000/prod_state`
   )).data;
   
-  return data;
+  return data[0].name;
 };
 
 export default function useFetchProdState() {

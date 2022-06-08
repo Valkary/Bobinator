@@ -34,7 +34,6 @@ const OrdersLayout: React.FunctionComponent<{ enoughWidth: boolean, prod_state: 
       });
 
       const etapas = orderStages;
-      console.log(etapas);
 
       const on_hold_orders = ordersOnHold;
       const finished_orders = finishedOrders;
