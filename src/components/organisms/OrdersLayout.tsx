@@ -47,12 +47,10 @@ const OrdersLayout: React.FunctionComponent<{ enoughWidth: boolean, prod_state: 
           {
             typeof inprod_orders !== 'undefined' && typeof etapas !== 'undefined' && 
             inprod_orders.map(order => { 
-              console.log(order);
               return (
                 <Card className={` rounded-md m-5 p-0 border-2 border-gray-700`} key={`in-prod-${order.id}`}>
                   <div className=" h-full animate-pulse flex flex-col">
                     <div className=" grid grid-cols-[15%_85%] font-semibold justify-center items-center h-full w-full">
-
                       <div 
                         className={` bg-lightBackground text-gray-900 border-r-8 ${prod_state === "stopped" ? "border-r-red-600" : "border-r-blue-600"} text-9xl flex justify-center items-center h-full w-full`}
                       >
@@ -76,7 +74,7 @@ const OrdersLayout: React.FunctionComponent<{ enoughWidth: boolean, prod_state: 
                           </div>
                           <div className=" flex flex-col items-center">
                             <div className=" text-gray-400 text-opacity-80">ETAPA ACTUAL</div>
-                            <div>{etapas[order.id_etapa].name}</div>
+                            <div>{etapas[order.id_etapa - 1].name}</div>
                           </div>
                           <div className=" flex flex-col items-center">
                             <div className=" text-gray-400 text-opacity-80">CLIENTE</div>

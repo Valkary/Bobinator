@@ -65,7 +65,7 @@ const Orders: React.FunctionComponent<{ enoughWidth: boolean }> = ({ enoughWidth
 
   const prodStateFetcher = async () => {
     const get_prod_state = await prod_state.data;
-    setProdState(get_prod_state.name ?? "in-prod");
+    setProdState(get_prod_state.name ? "in-prod" : "waiting");
   };
 
   useEffect(() => {
