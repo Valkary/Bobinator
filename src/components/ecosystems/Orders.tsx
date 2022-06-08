@@ -61,12 +61,14 @@ const FeedbackComponents: any = {
 const Orders: React.FunctionComponent<{ enoughWidth: boolean }> = ({ enoughWidth }) => {
   const socket = useContext(SocketContext);
   const { data, refetch }  = useFetchProdState();
-  const [prodState, setProdState] = useState(data ?? "waiting");
+  const [prodState, setProdState] = useState("waiting");
 
   useEffect(() => {
-    setProdState(data);
+    if (typeof data !== 'undefined') setProdState(data);
   }, [data]);
 
+  console.log(prodState);
+  
   socket.on("order_update", () => {
     refetch();
   });
